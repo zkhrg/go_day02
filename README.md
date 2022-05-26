@@ -1,4 +1,4 @@
-# Day 02 - Go Piscine
+# Day 02 - Go Intensive
 
 ## Not Invented Here Syndrome
 
