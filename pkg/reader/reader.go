@@ -1,7 +1,7 @@
-package main
+package reader
 
 import "fmt"
 
-func main() {
+func Read() {
 	fmt.Println("Mock")
 }
