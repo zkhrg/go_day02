@@ -147,4 +147,4 @@ The last tool that we'll implement for this day is log rotation tool. "Log rotat
 
 As in Exercise 01, you should use goroutines to parallelize archiving of several files simultaneously.
 
-# 
+#
