@@ -1,8 +1,6 @@
 # Day 02 - Go Boot camp
 
-## Not Invented Here Syndrome
-
-💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
+[Ссылка на РУ README.md версию](README_RUS.md)
 
 ## Contents
 

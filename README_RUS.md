@@ -1,52 +1,60 @@
 # Day 02 - Go Boot camp
 
-## Содержания
+[Link to EN README.md version](README.md)
+
+## Содержание
 
 1. [Глава I](#chapter-i) \
     1.1. [Основные правила](#general-rules)
 2. [Глава II](#chapter-ii) \
-    2.1. [Rules of the day](#rules-of-the-day)
+    2.1. [Правила дня](#rules-of-the-day)
 3. [Глава III](#chapter-iii) \
-    3.1. [Intro](#intro)
+    3.1. [Введение](#intro)
 4. [Глава IV](#chapter-iv) \
-    4.1. [Exercise 00: Finding Things](#exercise-00-finding-things)
+    4.1. [Упражнение 00: Поиск штуковин](#exercise-00-finding-things)
 5. [Глава V](#chapter-v) \
-    5.1. [Exercise 01: Counting Things](#exercise-01-counting-things)
+    5.1. [Упражнение 01: Подсчет штуковин](#exercise-01-counting-things)
 6. [Глава VI](#chapter-vi) \
-    6.1. [Exercise 02: Running Things](#exercise-02-running-things)
+    6.1. [Упражнение 02: Запуск штуковин](#exercise-02-running-things)
 7. [Глава VII](#chapter-vii) \
-    7.1. [Exercise 03: Archiving Things](#exercise-03-archiving-things)
+    7.1. [Упражнение 03: Архивирование штуковин](#exercise-03-archiving-things)
 
 
-<h2 id="chapter-i" >Глава I</h2>
-<h2 id="general-rules" >General rules</h2>
+<h2 id="chapter-i">Глава I</h2>
+<h2 id="general-rules">Основные правила</h2>
 
-- Your programs should not quit unexpectedly (giving an error on a valid input). If this happens, your project will be considered non functional and will receive a 0 during the evaluation.
-- We encourage you to create test programs for your project even though this work won't have to be submitted and won't be graded. It will give you a chance to easily test your work and your peers' work. You will find those tests especially useful during your defence. Indeed, during defence, you are free to use your tests and/or the tests of the peer you are evaluating.
-- Submit your work to your assigned git repository. Only the work in the git repository will be graded.
-- If your code is using external dependencies, it should use [Go Modules](https://go.dev/blog/using-go-modules) for managing them
+* Твоя программа не должна закрываться неожиданно (выдавая ошибку при корректном вводе). Если это произойдет, твой проект будет считаться неработаспособным и получит 0 во время оценки.
+* Мы рекомендуем тебе писать тесты для твоего проекта, даже если если они и не оцениваются. Это даст тебе возможность легко тестировать твою работу и работу твоих пиров. Ты убедишься что тесты очень полезны, во время защиты. Во время защиты ты свободен использовать свои тесты и/или тесты пира которого ты проверяешь.
+* Отправляй свою работу в нужный git репозиторий. Работа будет оцениваться только из git репозитория.
+* Если твой код использует сторонние зависимости, следует использовать [Go Modules](https://go.dev/blog/using-go-modules) для управления ими.
 
-<h2 id="chapter-ii" >Глава II</h2>
-<h2 id="rules-of-the-day" >Rules of the day</h2>
+<h2 id="chapter-ii">Глава II</h2>
+<h2 id="rules-of-the-day">Правила дня</h2>
 
-- You should only turn in `*.go` files and (in case of external dependencies) `go.mod` + `go.sum`
-- Your code for this task should be buildable with just `go build`
+* Пиши код только в `*.go` файлах и (в случае стронних зависимостей) `go.mod` + `go.sum`
+* Твой код для этого задания должен собираться с использовния простого `go build`
 
-<h2 id="chapter-iii" >Глава III</h2>
-<h2 id="intro" >Intro</h2>
+<h2 id="chapter-iii">Глава III</h2>
+<h2 id="intro">Введение</h2>
 
-It's really amazing how much you can do just using command line utilities! Pretty much any OS, including embedded ones, has its own CLI and a set of small programs to do magical things. As an example, you can read about [BusyBox](https://en.wikipedia.org/wiki/BusyBox), which is basically a swiss army knife for a variety of systems, starting with Linux-powered routers on OpenWRT and going to Android phones.
 
-We're not trying to reinvent the wheel here, but knowing how to work with FS and perform basic CLI things in Golang can be really helpful, so let's spend some time on this.
+Это завораживает как много ты можешь сделать используя иструменты командной строки. Практически любая ОС, включая встроенные имеет свой собственный CLI и набор маленьких программ для совершения магических штук. Как пример ты можешь почитать про [BusyBox](https://ru.wikipedia.org/wiki/BusyBox), который вообще швейцарский нож для различных систем, начиная от роутеров на базе линукс на OpenWRT и до телефонов на Android.
+
+Мы не пытаемся переизобрести велосипед тут, но знак как работать с файловой систем и производить основные CLI штуки в Golang может быть по-настоящему полезно, так что давай потратим немного времени на это.
 
 <h2 id="chapter-iv" >Глава IV</h2>
-<h3 id="ex00">Exercise 00: Finding Things</h3>
+<h3 id="ex00">Упражнение 00: Поиск штуковин</h3>
 
-As a first step, let's implement `find`-like utility using Go. It has to accept some path and a set of command-line options to be able to locate different types of entries. We are interested in three types of entries, which are directories, regular files and symbolic links. So, we should be able to run our program like this:
+В качестве первого шага давай реализуем а-ля `find` утилиту используя Go. Она будет принимать некоторый путь и набор опций(аргументов) командной строки и будет способна искать различны типы сущностей. Нас интересует три типа сущностей:
+* Папки (директории)
+* Обычные файлы
+* Cим-ссылки (symbolic links)
 
-```
-# Finding all files/directories/symlinks recursively in directory /foo
-~$ ./myFind /foo
+И так мы должны сделать запуск нашей программы таким образом:
+
+```bash
+# Поиск всех файлов/папок/сим-ссылок рекурсивно в директории /foo
+./myFind /foo
 /foo/bar
 /foo/bar/baz
 /foo/bar/baz/deep/directory
@@ -55,94 +63,97 @@ As a first step, let's implement `find`-like utility using Go. It has to accept 
 /foo/bar/broken_sl -> [broken]
 ```
 
-or specifying `-sl`, `-d` or `-f` to print only symlinks, only directories or only files. Keep in mind that user should be able to specify one, two or all three of them explicitly, like `./myFind -f -sl /path/to/dir` or `./myFind -d /path/to/other/dir`.
+или задавать фалаги `-ls`, `-d` или `-f` для вывода только сим-ссылок, только директорий или только файлов. Держи в голове что пользователь может выбреть одну, две, или сразу три опции типа `./myFind -f -sl /path/to/dir` или `./myFind -d /path/to/other/dir`.
 
-You should also implement one more option - `-ext` (works ONLY when -f is specified) for user to be able to print only files with a certain extension. An extension in this task can be thought of the last part of filename if we split it by a dot. So,
+Ты так же должен имплементировать еще одну обработку аргумента `-ext` (работает ТОЛЬКО если `-f` задан) для пользователя возможность отображать только файлы с заданным расширением. Расширение в этом задннии это последняя часть имени файла если мы разделим его через точку, так,
 
-```
-# Finding only *.go files ignoring all the rest.
-~$ ./myFind -f -ext 'go' /go
+```bash
+# Поиск только *.go файлов игнорируя все остальные.
+./myFind -f -ext 'go' /go
 /go/src/github.com/mycoolproject/main.go
 /go/src/github.com/mycoolproject/magic.go
 ```
 
-You'll also need to resolve symlinks. So, if `/foo/bar/buzz` is a symlink pointing to some other place in FS, like `/foo/bar/baz`, print both paths separated by `->`, like in example above. 
+Тебе так же нужно обрабатывать сим-ссылки. Так если `/foo/bar/buzz` это сим-ссылка указывающая куда-то в другое место файловой системы типа `/foo/bar/baz`, выведи оба пути разделенными через `->`, как в примере выше.
 
-Another thing about symlinks is that they may be broken (pointing to a non-existing file node). In this case your code should print `[broken]` instead of the path of a symlink destination.
+Другая вещь про сим-ссылке это то что они могут быть быть сломанными (указывать на на существующий файловый узел). В этом случае твой код дожен выводить `[broken]` вместо пути на который указывает ссылка.
 
-Files and directories that current user doesn't have access to (permission errors) should be skipped in output and not lead to a runtime error.
+Файлы и директории к которым текущий пользователь не имеет доступа (permission errors) должны быть пропущены в выводе и не приводить к ошибке выполнения (runtime error).
 
 <h2 id="chapter-v" >Глава V</h2>
-<h3 id="ex01">Exercise 01: Counting Things</h3>
+<h3 id="ex01">Упражнение 01: Подсчет штуковин</h3>
 
-Now we are able to find our files, but we might need more meta information about what is in those files. Let's implement a `wc`-like utility to gather basic statistics about our files.
+Сейчас мы можем искать наши файлы, но нам может понадобиться больше мета-информации о том что в этих файлах. Давай реализуем а-ля `wc` инструмент для сбора базовой статистики о наших файлах.
 
-First things first, let's assume our files are utf-8 encoded text files, so your code should work with texts in Russian, too (forget about special cases like Arabic for now, only English and Russian are required). Also, you may ignore punctuation and just consider spaces as the only word delimiters.
+Сперва, давай предположим что наши файлы представляют собой текстовые файлы в utf-8 кодировке, таким образом твой код должен работать с файлами содержащими русские символы (забудь о краевых случаях по типу арабского языка пока что, сейчас требуется только Английские и Русские символы). Ты можешь игнорировать пункцию и просто использовать пробел в качестве разделителя слов.
 
-You'll need to implement three mutually exclusive (only one can be specified at a time, otherwise an error message is printed) flags for your code: `-l` for counting lines, `-m` for counting characters and `-w` for counting words. Your program should be runnable like this:
+Ты должен релизовать три взаимоисключащих (только один может быть задан при запуске, в другом случае сообщение об ошибке будет выведено) флага для своего кода `-l` для подсчета строк, `-m` для подсчета символов и `-w` для подсчета слов. Твоя программа должна запускаться так:
 
-```
-# Counting words in file input.txt
-~$ ./myWc -w input.txt
+```bash
+# Подсчет слов в файле input.txt
+./myWc -w input.txt
 777 input.txt
-# Counting lines in files input2.txt and input3.txt
-~$ ./myWc -l input2.txt input3.txt
+# Подсчет строк в файлах input2.txt и input3.txt
+./myWc -l input2.txt input3.txt
 42 input2.txt
 53 input3.txt
-# Counting characters in files input4.txt, input5.txt and input6.txt
-~$ ./myWc -m input4.txt input5.txt input6.txt
+# Подсчет символов в файлах input4.txt, input5.txt и input6.txt
+./myWc -m input4.txt input5.txt input6.txt
 1337 input4.txt
 2664 input5.txt
 3991 input6.txt
 ```
 
-As you may see, the answer is always a calculated number and a filename separated by tab (`\t`). If no flags are specified, `-w` behaviour should be used.
+Как ты можешь видеть, ответ это всегда вычисленное число и название файла разделенные табом (`\t`). Если ни один флаг не был задан, используй поведение определенное для флага `-w`.
 
-**Important**: as all files are independent, you should utilize goroutines to process them concurrently. You can start as many goroutines as there are input files specified for the program.
+**Важно**: так все файлы независимы между собой, ты должен использовать горутины (goroutines) для обработки файлов конкуррентно. Ты можешь стартануть столько горутин сколько файлов было передано для твоей программы.
 
 <h2 id="chapter-vi" >Глава VI</h2>
-<h3 id="ex02">Exercise 02: Running Things</h3>
+<h3 id="ex02">Упражнение 02: Запуск штуковин</h3>
 
-Do you know what `xargs` is? You can read about it [here](https://shapeshed.com/unix-xargs/), for example. Let's implement a similar tool - in this exercise you'll need to write a utility that will:
+Ты знаешь что такое `xargs`? Ты можешь почитать об этом [тута](https://shapeshed.com/unix-xargs/), например. Давай реализуем похожий инструмент - в этом упражнении тебе предстоит написать утилиты которая будет:
 
-1) treat all parameters as a command, like 'wc -l' or 'ls -la'
-2) build a command by appending all lines that are fed to program's stdin as this command's arguments, then execute it. So if we run
 
-```
-~$ echo -e "/a\n/b\n/c" | ./myXargs ls -la
-```
+1) обрабатывать все параметры как комманды, типа `wc -l` или `ls -la`
+2) запускать команду передавая ей аргумент за аргументов, котрые разделены новой строкой.
 
-it should be an equivalent to running
-
-```
-~$ ls -la /a /b /c
+Пример
+```bash
+echo -e "/a\n/b\n/c" | ./myXargs ls -la
 ```
 
-You can test this tool together with those from previous Exercises, so
+это эквивалентно команде ниже:
 
-```
-~$ ./myFind -f -ext 'log' /path/to/some/logs | ./myXargs ./myWc -l
+```bash
+ls -la /a /b /c
 ```
 
-will calculate line counts for all ".log" files in `/path/to/some/logs` directory recursively.
+Ты можешь потестить этот инструмент совместно с теми что ты были в предыдущем упражнении
+
+```bash
+./myFind -f -ext 'log' /path/to/some/logs | ./myXargs ./myWc -l
+```
+
+эта команда будет вычислять количество строк для `.log` файлов в папке `/path/to/some/logs` рекурсивно
 
 <h2 id="chapter-vii" >Глава VII</h2>
-<h3 id="ex03">Exercise 03: Archiving Things</h3>
+<h3 id="ex03">Упражнение 03: Архивирование штуковин</h3>
 
-The last tool that we'll implement for this day is log rotation tool. "Log rotation" is a process when the old log file is archived and put away for storage so logs wouldn't pile up in a single file indefinitely. It should work like this:
+Это последний инструмент что мы будем реализовать для этого дня это инструмент ротации логов. "Ротация логов" (log rotation) это процесс когда старый лог файл архивируется и выносится на хранение, так логи не будут копиться для одного файла бесконечно.
+
+```bash
+# Будет создан файл /path/to/logs/some_application_1600785299.tag.gz
+# где 1600785299 это отметка времени в UNIX формате сделанная для `some_application.log`
+./myRotate /path/to/logs/some_application.log
+```
+тебе поможет: [MTIME](https://linuxize.com/post/linux-touch-command/)
 
 ```
-# Will create file /path/to/logs/some_application_1600785299.tag.gz
-# where 1600785299 is a UNIX timestamp made from `some_application.log`'s [MTIME](https://linuxize.com/post/linux-touch-command/)
-~$ ./myRotate /path/to/logs/some_application.log
+# Будет создано два tar.gz файла с временными отметками (одна для каждого лога) 
+# и поместит их в папку /data/archive
+./myRotate -a /data/archive /path/to/logs/some_application.log /path/to/logs/other_application.log
 ```
 
-```
-# Will create two tar.gz files with timestamps (one for every log) 
-# and put them into /data/archive directory
-~$ ./myRotate -a /data/archive /path/to/logs/some_application.log /path/to/logs/other_application.log
-```
-
-As in Exercise 01, you should use goroutines to parallelize archiving of several files simultaneously.
+**Важно**: как в упражнении 01 ты должен использовать горутины для распалеливания архивирования нескольких файлов **одновременно**.
 
 # 
