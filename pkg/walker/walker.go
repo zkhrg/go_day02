@@ -14,7 +14,7 @@ type Opt struct {
 	Ext     string
 }
 
-func innerFind(root string, opt *Opt, wg *sync.WaitGroup, results chan<- string) {
+func innerFind(root string, opt *Opt, wg *sync.WaitGroup) {
 	defer wg.Done()
 
 	entries, err := os.ReadDir(root)
@@ -31,26 +31,25 @@ func innerFind(root string, opt *Opt, wg *sync.WaitGroup, results chan<- string)
 
 		if info.IsDir() {
 			if opt.Dir {
-				results <- path
+				fmt.Println(path)
 			}
 			wg.Add(1)
-			go innerFind(path, opt, wg, results)
+			go innerFind(path, opt, wg)
 		} else if info.Mode()&os.ModeSymlink != 0 && opt.Symlink {
 			target, err := os.Readlink(path)
 			if err != nil {
 				return
 			}
 			if _, err := os.Stat(target); err == nil {
-				path += " -> " + target
+				fmt.Println(path + " -> " + target)
 			} else if os.IsNotExist(err) {
-				path += " -> " + "[broken]"
+				fmt.Println(path + " -> " + "[broken]")
 			} else {
 				continue
 			}
-			results <- path
 		} else {
 			if opt.File && (opt.Ext == "" || opt.Ext != "" && ("."+opt.Ext) == filepath.Ext(path)) {
-				results <- path
+				fmt.Println(path)
 				continue
 			}
 		}
@@ -59,17 +58,9 @@ func innerFind(root string, opt *Opt, wg *sync.WaitGroup, results chan<- string)
 
 func Find(root string, opt *Opt) {
 	var wg sync.WaitGroup
-	results := make(chan string)
 
-	go func() {
-		for result := range results {
-			fmt.Println("Found:", result)
-		}
-	}()
 	wg.Add(1)
-	go innerFind(root, opt, &wg, results)
+	go innerFind(root, opt, &wg)
 
 	wg.Wait()
-
-	close(results)
 }

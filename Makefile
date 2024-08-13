@@ -5,7 +5,7 @@ XARGS_TARGET=./bin/myXargs
 
 BUILD=go build -o
 
-all: $(FIND_TARGET)
+all: clean $(FIND_TARGET) $(WC_TARGET)
 
 $(FIND_TARGET):
 	$(BUILD) $(FIND_TARGET) cmd/cli/find/main.go
